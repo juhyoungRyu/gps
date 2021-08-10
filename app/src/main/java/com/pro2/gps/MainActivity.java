@@ -1,6 +1,8 @@
 package com.pro2.gps;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.location.Location;
 import android.os.Bundle;
 import android.Manifest;
 import android.app.AlertDialog;
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity
         }
 
         final TextView textview_address = (TextView)findViewById(R.id.textview);
+        TextView lat1 = (TextView)findViewById(R.id.lat1);
+        TextView lng1 = (TextView)findViewById(R.id.lng1);
+        TextView location = (TextView)findViewById(R.id.location);
 
 
         Button ShowLocationButton = (Button) findViewById(R.id.button);
@@ -67,6 +72,25 @@ public class MainActivity extends AppCompatActivity
                 textview_address.setText(address);
 
                 Toast.makeText(MainActivity.this, "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
+
+                String lat2 = Double.toString(longitude);
+                lat1.setText(lat2);
+                String lng2 = Double.toString(latitude);
+                lng1.setText(lng2);
+
+                Location locationA = new Location("point A");
+
+                locationA.setLatitude(37.58701200952721);
+                locationA.setLongitude(127.20872027426113);
+
+                Location locationB = new Location("point B");
+
+                locationB.setLatitude(latitude);
+                locationB.setLongitude(longitude);
+
+                float distance = locationA.distanceTo(locationB);
+                String dis = Float.toString(distance);
+                location.setText(dis);
             }
         });
     }
@@ -80,7 +104,8 @@ public class MainActivity extends AppCompatActivity
                                            @NonNull String[] permissions,
                                            @NonNull int[] grandResults) {
 
-        if ( permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
+        super.onRequestPermissionsResult(permsRequestCode, permissions, grandResults);
+        if (permsRequestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
 
             // 요청 코드가 PERMISSIONS_REQUEST_CODE 이고, 요청한 퍼미션 개수만큼 수신되었다면
 
@@ -97,12 +122,11 @@ public class MainActivity extends AppCompatActivity
             }
 
 
-            if ( check_result ) {
+            if (check_result) {
 
                 //위치 값을 가져올 수 있음
                 ;
-            }
-            else {
+            } else {
                 // 거부한 퍼미션이 있다면 앱을 사용할 수 없는 이유를 설명해주고 앱을 종료합니다.2 가지 경우가 있습니다.
 
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, REQUIRED_PERMISSIONS[0])
@@ -112,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                     finish();
 
 
-                }else {
+                } else {
 
                     Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
 

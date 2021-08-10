@@ -5,6 +5,10 @@ plugins {
 android {
     compileSdk 31
 
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
+    }
     defaultConfig {
         applicationId "com.pro2.gps"
         minSdk 26
@@ -13,6 +17,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
