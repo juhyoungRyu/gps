@@ -2,6 +2,7 @@ package com.pro2.gps;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Notification;
 import android.location.Location;
 import android.os.Bundle;
 import android.Manifest;
@@ -14,6 +15,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -91,10 +93,15 @@ public class MainActivity extends AppCompatActivity
                 float distance = locationA.distanceTo(locationB);
                 String dis = Float.toString(distance);
                 location.setText(dis);
+
+                NotificationCompat.Builder mBuilder =
+                        new NotificationCompat.Builder(MainActivity.this)
+                            .setSmallIcon(R.drawable.ic_launcher_foreground)
+                            .setContentTitle("곧 도착합니다")
+                            .setContentText("도착지까지 1km 남았습니다");
             }
         });
     }
-
 
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
