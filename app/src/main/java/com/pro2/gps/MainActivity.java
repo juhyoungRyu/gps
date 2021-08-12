@@ -3,6 +3,7 @@ package com.pro2.gps;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.Manifest;
@@ -94,11 +95,18 @@ public class MainActivity extends AppCompatActivity
                 String dis = Float.toString(distance);
                 location.setText(dis);
 
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(MainActivity.this)
+                if(distance < 1000){
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this,NOTIFICATION_ID)
+                            .setContentTitle("제목")
+                            .setConTentText("내용")
                             .setSmallIcon(R.drawable.ic_launcher_foreground)
-                            .setContentTitle("곧 도착합니다")
-                            .setContentText("도착지까지 1km 남았습니다");
+                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                            .setOngoing(true)
+                            ;
+
+                    notificationManager.notify(0, builder.build());
+                }
+
             }
         });
     }
