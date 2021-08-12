@@ -100,19 +100,19 @@ public class MainActivity extends AppCompatActivity
                 String dis = Float.toString(distance);
                 location.setText(dis);
 
-                if(distance > 1000) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                        NotificationChannel notificationChannel =
-                                new NotificationChannel(
-                                        "gps_alarm",
-                                        "알람 테스트",
-                                        NotificationManager.IMPORTANCE_DEFAULT
-                                );
-                        notificationChannel.setDescription("알람테스트");
-                        notificationManager.createNotificationChannel(notificationChannel);
-                    }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationChannel notificationChannel =
+                            new NotificationChannel(
+                                    "gps_alarm",
+                                    "알람 테스트",
+                                    NotificationManager.IMPORTANCE_DEFAULT
+                            );
+                    notificationChannel.setDescription("알람테스트");
+                    notificationManager.createNotificationChannel(notificationChannel);
+                }
 
+                if(distance > 1000) {
                     Notification noti = new NotificationCompat.Builder(gpsTracker, "gps_alarm")
                             .setDefaults(Notification.DEFAULT_LIGHTS)
                             .setSmallIcon(R.drawable.ic_launcher_foreground)
