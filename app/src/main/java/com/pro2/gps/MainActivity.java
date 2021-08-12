@@ -3,8 +3,13 @@ package com.pro2.gps;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.Manifest;
 import android.app.AlertDialog;
@@ -95,21 +100,35 @@ public class MainActivity extends AppCompatActivity
                 String dis = Float.toString(distance);
                 location.setText(dis);
 
-                if(distance < 1000){
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this,NOTIFICATION_ID)
-                            .setContentTitle("제목")
-                            .setConTentText("내용")
+                if(distance > 1000) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                        NotificationChannel notificationChannel =
+                                new NotificationChannel(
+                                        "gps_alarm",
+                                        "알람 테스트",
+                                        NotificationManager.IMPORTANCE_DEFAULT
+                                );
+                        notificationChannel.setDescription("알람테스트");
+                        notificationManager.createNotificationChannel(notificationChannel);
+                    }
+
+                    Notification noti = new NotificationCompat.Builder(gpsTracker, "gps_alarm")
+                            .setDefaults(Notification.DEFAULT_LIGHTS)
                             .setSmallIcon(R.drawable.ic_launcher_foreground)
-                            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                            .setOngoing(true)
-                            ;
-
-                    notificationManager.notify(0, builder.build());
+                            .setContentTitle("title")
+                            .setContentText("text")
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setAutoCancel(true)
+                            .build();
+                    final NotificationManager nm =
+                            (NotificationManager) gpsTracker.getSystemService(Context.NOTIFICATION_SERVICE);
+                    nm.notify(NOTIFICATION_SERVICE, 0,noti);
                 }
-
             }
         });
     }
+
 
     /*
      * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드입니다.
