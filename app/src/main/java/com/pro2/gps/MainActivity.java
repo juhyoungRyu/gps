@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
                     notificationManager.createNotificationChannel(notificationChannel);
                 }
 
-                if(distance > 1000) {
+                if(distance < 1000) {
                     Notification noti = new NotificationCompat.Builder(gpsTracker, "gps_alarm")
                             .setDefaults(Notification.DEFAULT_LIGHTS)
                             .setSmallIcon(R.drawable.ic_launcher_foreground)
